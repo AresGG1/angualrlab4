@@ -1,67 +1,102 @@
-<form [formGroup]="user" xmlns="http://www.w3.org/1999/html" class="max-w-md mx-auto p-4 bg-gray-100 rounded-lg"
+<form [formGroup]="user" xmlns="http://www.w3.org/1999/html" fxLayout="column" fxLayoutAlign="space-between center"
       (ngSubmit)="onSubmit()">
-  <input id="name" type="text" formControlName="name" placeholder="Enter your name" class="w-full p-2 rounded mb-2">
-  <p *ngIf="isTouchedAndMissing(user.controls['name'])" class="text-red-500 mb-4">required</p>
 
-  <input id="lastname" type="text" formControlName="lastname" placeholder="Enter your lastname" class="w-full p-2 rounded mb-2">
-  <p *ngIf="isTouchedAndMissing(user.controls['lastname'])" class="text-red-500 mb-4">required</p>
+<!--  <input hidden matInput id="id" type="text" formControlName="name" placeholder="Enter your name" >-->
+  <div fxLayout="row" fxLayoutAlign="space-between center">
+  <div fxLayout="column" >
+    <mat-form-field >
+      <input matNativeControl matInput id="name" type="text" formControlName="name" placeholder="Enter your name" >
+      <mat-error *ngIf="user.controls.name.invalid">required</mat-error>
 
-  <select id="type" formControlName="type" class="w-full p-2 rounded mb-4">
-    <option value="" disabled selected>Select type</option>
-    <option *ngFor="let type of getTypes()" [value]="type">{{ type }}</option>
-  </select>
-  <p *ngIf="isTouchedAndMissing(user.controls['type'])" class="text-red-500 mb-4">required</p>
+    </mat-form-field>
 
-  <input id="email" type="text" formControlName="email" placeholder="Enter your email" class="w-full p-2 rounded mb-2">
-  <p *ngIf="isTouchedAndMissing(user.controls['email'])" class="text-red-500 mb-4">required</p>
-  <p *ngIf="isTouchedAndWrong(user.controls['email']) && !user.controls['email'].getError('required')" class="text-red-500 mb-4">wrong email pattern</p>
+    <mat-form-field>
+      <input matNativeControl id="lastname" type="text" formControlName="lastname" placeholder="Enter your lastname" >
+      <mat-error *ngIf="isTouchedAndMissing(user.controls['lastname'])">required </mat-error>
 
-  <input id="password" type="password" formControlName="password" placeholder="Enter your password" class="w-full p-2 rounded mb-2">
-  <p *ngIf="isTouchedAndMissing(user.controls['password'])" class="text-red-500 mb-4">required</p>
-  <p *ngIf="isTouchedAndWrong(user.controls['password']) && !user.controls['password'].getError('required')" class="text-red-500 mb-4">
-    password must contain numbers, capital and lowercase letters, special symbols (-#$) (length 6+)
-  </p>
+    </mat-form-field>
 
-  <input id="passwordConfirmation" type="password" formControlName="passwordConfirmation" placeholder="Confirm your password" class="w-full p-2 rounded mb-2">
-  <p *ngIf="isTouchedAndMissing(user.controls['passwordConfirmation'])" class="text-red-500 mb-4">required</p>
-  <p *ngIf="isTouchedAndWrong(user.controls['passwordConfirmation']) || isTouchedAndMismatch(user.controls['passwordConfirmation']) " class="text-red-500 mb-4">
-    password mismatch
-  </p>
+    <mat-form-field>
+      <mat-label>Select an option</mat-label>
+      <mat-select formControlName="type">
+        <mat-option *ngFor="let type of getTypes()" [value]="type">{{ type }}</mat-option>
+      </mat-select>
 
-  <textarea id="description" type="" formControlName="description" placeholder="Description" class="w-full p-2 rounded mb-2"></textarea>
+      <mat-error *ngIf="isTouchedAndMissing(user.controls['type'])">required</mat-error>
 
-  <select id="sex" formControlName="sex" class="w-full p-2 rounded mb-2">
-    <option value="" disabled selected>Select your gender</option>
-    <option *ngFor="let sex of getSex()" [value]="sex">{{ sex }}</option>
-  </select>
+    </mat-form-field>
 
-  <input (input)="phoneHandler()" id="phone" type="tel" maxlength="13" formControlName="phone" placeholder="+380123456789" class="w-full p-2 rounded mb-4">
-  <p *ngIf="isTouchedAndWrong(user.controls['phone'])" class="text-red-500 mb-4">wrong phone pattern</p>
+    <mat-form-field >
+      <input matNativeControl id="email" type="text" formControlName="email" placeholder="Enter your email" >
+      <mat-error *ngIf="isTouchedAndMissing(user.controls['email'])" class="text-red-500 mb-4">required</mat-error>
+      <mat-error *ngIf="isTouchedAndWrong(user.controls['email']) && !user.controls['email'].getError('required')">wrong email pattern</mat-error>
+    </mat-form-field>
+  </div>
+
+  <div fxLayout="column">
+    <mat-form-field >
+      <input matNativeControl id="password" type="password" formControlName="password" placeholder="Enter your password" >
+      <mat-error *ngIf="isTouchedAndMissing(user.controls['password'])" class="text-red-500 mb-4">required</mat-error>
+      <mat-error *ngIf="isTouchedAndWrong(user.controls['password']) && !user.controls['password'].getError('required')">
+        password must contain numbers, capital and lowercase letters, special symbols (-#$) (length 6+)
+      </mat-error>
+    </mat-form-field>
+
+    <mat-form-field >
+      <input matNativeControl id="passwordConfirmation" type="password" formControlName="passwordConfirmation" placeholder="Confirm your password">
+      <mat-error *ngIf="isTouchedAndMissing(user.controls['passwordConfirmation'])" class="text-red-500 mb-4">required</mat-error>
+      <mat-error *ngIf="isTouchedAndWrong(user.controls['passwordConfirmation']) || isTouchedAndMismatch(user.controls['passwordConfirmation'])">
+        password mismatch
+      </mat-error>
+    </mat-form-field>
+
+    <mat-form-field>
+      <input matNativeControl (input)="phoneHandler()" id="phone" type="tel" maxlength="13" formControlName="phone" placeholder="+380123456789">
+      <mat-error *ngIf="isTouchedAndWrong(user.controls['phone'])">wrong phone pattern</mat-error>
+
+    </mat-form-field>
+
+
+    <mat-form-field >
+      <mat-label>Select gender</mat-label>
+      <mat-select formControlName="sex">
+        <mat-option *ngFor="let type of getSex()" [value]="type">{{ type }}</mat-option>
+      </mat-select>
+
+    </mat-form-field>
+
+  </div>
+  </div>
+
+  <mat-form-field >
+    <textarea matNativeControl id="description" type="" formControlName="description" placeholder="Description" class="w-full p-2 rounded mb-2"></textarea>
+  </mat-form-field>
+
   <h2 class="text-center text-2xl mb-4">Subjects</h2>
 
   <div formArrayName="subjects">
     <div *ngFor="let item of getSubjects(); let i = index">
       <div class="relative">
+        <mat-form-field class="w-full">
         <input
+          matNativeControl
           type="text"
           formControlName="{{i}}"
-          placeholder="Enter subject"
-          class="w-full p-2 rounded mb-2 pl-10">
-        <div class="absolute top-0 left-0 h-full flex items-center pl-2">
-          <!-- You can customize the delete icon here -->
-          <button type="button" class="text-red-500 hover:text-red-700" (click)="deleteSubject(i)">
-            <!-- Add your delete icon here, for example an 'x' -->
+          placeholder="Enter subject">
+        <div class="absolute top-0 right-0 h-full flex items-center pl-2">
+          <button mat-icon-button type="button" (click)="deleteSubject(i)">
             &#x2715;
           </button>
         </div>
+        </mat-form-field>
       </div>
     </div>
   </div>
 
   <div class="flex justify-center items-center mb-2">
-    <button id="subjectButton" type="button" (click)="addSubject()" class="bg-blue-500 text-white p-2 rounded cursor-pointer mx-4">Add subject</button>
+    <button class="mat-accent" mat-raised-button	 id="subjectButton" type="button" (click)="addSubject()">Add subject</button>
   </div>
 
-  <button type="submit" [disabled]="user.invalid" class="w-full bg-blue-500 text-white p-2 rounded cursor-pointer" [class.bg-gray-400]="user.invalid">Submit</button>
+  <button class="mat-primary w-96" mat-raised-button type="submit" [disabled]="user.invalid" [class.disabled]="user.invalid">Submit</button>
 
 </form>

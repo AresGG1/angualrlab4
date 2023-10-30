@@ -1,19 +1,25 @@
-import {Component, NgIterable} from '@angular/core';
+import {Component, NgIterable, OnInit} from '@angular/core';
 import {AbstractControl, FormArray, FormControl, FormGroup, Validators} from "@angular/forms";
 import {Type} from "../../enums/type";
 import {PasswordValidatorService} from "../../services/password-validator.service";
 import {Sex} from "../../enums/sex";
 import {User} from "../../interfaces/user";
 import {UserService} from "../../services/user-service";
+import {ActivatedRoute, Router} from "@angular/router";
 
 @Component({
   selector: 'app-user-form',
   templateUrl: './user-form.component.html',
-  styleUrls: ['./user-form.component.css']
+  styleUrls: ['./user-form.component.scss']
 })
-export class UserFormComponent {
+export class UserFormComponent implements OnInit {
 
-  constructor(private validator: PasswordValidatorService, private userService: UserService) {
+  constructor(
+    private validator: PasswordValidatorService,
+    private userService: UserService,
+    private route: ActivatedRoute,
+    private router: Router
+  ) {
   }
 
   user = new FormGroup({
@@ -103,6 +109,51 @@ export class UserFormComponent {
     this.user.controls.subjects = new FormArray([])
     this.user.controls.phone = this.getPhoneFormControl()
     this.user.reset()
+
+    this.router.navigate([''])
+  }
+
+  ngOnInit(): void {
+    //get url and id parameter
+    //if id parameter is not null then get user by id
+    //and set user to form
+    this.route.url.subscribe((url) => {
+      const uuid = this.route.snapshot.paramMap.get('uuid')
+      if (url && url[0].path === 'edit' && uuid) {
+        console.log(uuid);
+        const userId = this.route.snapshot.paramMap.get('uuid')
+
+        const user = this.userService.getUserById(userId ?? '')
+
+        if (!user) {
+          return
+        }
+        console.log(user);
+        this.fetchUserData(user)
+      }
+    })
+
+  }
+
+  fetchUserData(user: User): void {
+    this.user.controls.id.setValue(user.id ?? '')
+    this.user.controls.name.setValue(user.name)
+    this.user.controls.lastname.setValue(user.lastname)
+    this.user.controls.password.setValue(user.password)
+    this.user.controls.passwordConfirmation.setValue(user.password)
+    this.user.controls.type.setValue(user.type)
+    this.user.controls.phone.setValue(user.phone)
+    this.user.controls.email.setValue(user.email)
+    this.user.controls.sex.setValue(user.sex)
+    this.user.controls.description.setValue(user.description)
+    this.user.controls.subjects = new FormArray([])
+
+    user.subjects?.forEach((subject) => {
+      (this.user.get('subjects') as FormArray).push(new FormControl(subject))
+    })
+
+    console.log(this.user.controls.id.value);
+
   }
 
 }

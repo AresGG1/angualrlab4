@@ -1,0 +1,19 @@
+<mat-card>
+  <mat-card-header>
+    <mat-card-title>About Us</mat-card-title>
+  </mat-card-header>
+
+  <mat-card-content
+    class="bg-white p-4 mt-8 fade-in"
+    [class.shown]="showFirst">
+    <p class="font-semibold">Our purpose</p>
+    <p class="mt-4 text-gray-700">Pass the laboratory</p>
+  </mat-card-content>
+
+  <mat-card-content
+    class="bg-white p-4 mt-8 second-fade-in"
+    [class.shown]="showSecond">
+    <p class="font-semibold">Our Mission</p>
+    <p class="mt-4 text-gray-700">Create the appearance that there are many components</p>
+  </mat-card-content>
+</mat-card>

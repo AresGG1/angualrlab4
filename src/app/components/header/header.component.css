@@ -1,0 +1,10 @@
+span {
+  margin-right: 10px;
+}
+header mat-toolbar span a:hover {
+  cursor: pointer !important;
+}
+header {
+  margin-bottom: 15px;
+}
+

@@ -1,0 +1,9 @@
+
+.responsive-table {
+  width: 80%;
+  overflow: auto;
+}
+
+tr[mat-row]:hover {
+  cursor: pointer;
+}
