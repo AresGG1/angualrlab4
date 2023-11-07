@@ -1,4 +1,4 @@
-import {Component, OnInit} from '@angular/core';
+import {Component, OnDestroy, OnInit} from '@angular/core';
 import {User} from "../../interfaces/user";
 import {UserService} from "../../services/user-service";
 
@@ -7,7 +7,7 @@ import {UserService} from "../../services/user-service";
   templateUrl: './users.component.html',
   styleUrls: ['./users.component.css']
 })
-export class UsersComponent implements OnInit {
+export class UsersComponent implements OnInit, OnDestroy {
   users: User[]
 
 
@@ -26,8 +26,15 @@ export class UsersComponent implements OnInit {
   ngOnInit(): void {
     this.userService.getUsers().subscribe(value => this.users = value)
   }
-  onDeleteUser(id: string): void {
-    this.users = this.users.filter((u) => u.id != id)
+  onDeleteUser(user: User): void {
+    this.userService.deleteUser(user.id ?? '')
+    this.userService.getUsers().subscribe((users) => this.users = users)
+  }
+
+  onEditUser(id: string) {
+  }
+
+  ngOnDestroy(): void {
   }
 
 }

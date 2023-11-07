@@ -46,6 +46,14 @@ export class UserService {
     return this.users.asObservable()
   }
 
+  deleteUser(id: string) {
+    console.log(id);
+
+    const users= this.users.getValue().filter((u) => u.id != id)
+    console.log(users);
+    this.users.next([...users])
+  }
+
   getUserById(id: string): User | undefined {
     return this.users.getValue().find((u) => u.id == id)
   }

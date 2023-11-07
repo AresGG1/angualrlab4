@@ -6,6 +6,7 @@ import {Sex} from "../../enums/sex";
 import {User} from "../../interfaces/user";
 import {UserService} from "../../services/user-service";
 import {ActivatedRoute, Router} from "@angular/router";
+import {NotificationService} from "../../services/notification.service";
 
 @Component({
   selector: 'app-user-form',
@@ -18,7 +19,8 @@ export class UserFormComponent implements OnInit {
     private validator: PasswordValidatorService,
     private userService: UserService,
     private route: ActivatedRoute,
-    private router: Router
+    private router: Router,
+    private notificationService: NotificationService
   ) {
   }
 
@@ -111,6 +113,8 @@ export class UserFormComponent implements OnInit {
     this.user.reset()
 
     this.router.navigate([''])
+
+    this.notificationService.showSuccess("Success")
   }
 
   ngOnInit(): void {

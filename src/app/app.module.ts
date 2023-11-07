@@ -20,6 +20,8 @@ import {MatTableModule} from "@angular/material/table";
 import { NotFoundComponent } from './components/not-found/not-found.component';
 import {MatCardModule} from "@angular/material/card";
 import {MatIconModule} from "@angular/material/icon";
+import { NotificationComponent } from './components/notification/notification.component';
+import {MatSnackBarModule} from "@angular/material/snack-bar";
 
 @NgModule({
   declarations: [
@@ -28,7 +30,8 @@ import {MatIconModule} from "@angular/material/icon";
     HeaderComponent,
     UsersComponent,
     AboutComponent,
-    NotFoundComponent
+    NotFoundComponent,
+    NotificationComponent
   ],
   imports: [
     BrowserModule,
@@ -45,7 +48,8 @@ import {MatIconModule} from "@angular/material/icon";
     MatTableModule,
     MatCardModule,
     MatIconModule,
-    RouterLink
+    RouterLink,
+    MatSnackBarModule
   ],
   providers: [
   ],
